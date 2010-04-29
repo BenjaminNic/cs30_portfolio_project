@@ -1,5 +1,6 @@
 !!!
 %html
+
 #gridWrapper
   %head
     = stylesheet_link_tag 'compiled/global.css'
@@ -11,6 +12,7 @@
     = link_to "<span>&laquo Resume &raquo;</span>", "resume", :class => 'small red button'
     = link_to "<span>&laquo Work &raquo;</span>", "work", :class => 'small red button'
     = link_to "<span>&laquo Contact &raquo;</span>", "contact", :class => 'small red button'
-    = link_to "<span>&laquo Forum &raquo;</span>", "posts", :class => 'small red button'
+    = link_to "<span>&laquo Blog &raquo;</span>", "posts", :class => 'small red button'
+    = link_to "<span> Example</span>", "example", :class => 'small green button'
     = yield
 

@@ -1,0 +1,280 @@
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;require_relative 'Project2Classes_BNicoara_CMorse.rb'</DIV>
+<DIV>clinic = Clinic.new</DIV>
+<DIV>puts "Welcome to the clinic. Please select one of the following options:<BR>
+\n[doctor check-in]\n[doctor check-out]\n[patient check-in]\n[patient check-out]\n[exit]\n\n"</DIV>
+<DIV>while line = gets.chomp<BR>
+&nbsp; if line == "doctor check-in"<BR>
+&nbsp;&nbsp;&nbsp; clinic.doctor_checkin<BR>
+&nbsp;&nbsp;&nbsp; clinic.patient_sorter<BR>
+&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp; elsif line == "patient check-in"<BR>
+&nbsp;&nbsp;&nbsp; clinic.patient_checkin<BR>
+&nbsp;&nbsp;&nbsp; clinic.patient_sorter<BR>
+&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp; elsif line == "doctor check-out"<BR>
+&nbsp;&nbsp;&nbsp; clinic.doctor_checkout<BR>
+&nbsp;&nbsp;&nbsp; clinic.patient_sorter<BR>
+&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp; elsif line == "patient check-out"<BR>
+&nbsp;&nbsp;&nbsp; clinic.patient_checkout<BR>
+&nbsp; elsif line == "exit"<BR>
+&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp; puts "Command not recognized!<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp; end<BR>
+&nbsp; puts "Welcome to the clinic. Please select one of the following options:<BR>
+&nbsp; \n[doctor check-in]\n[doctor check-out]\n[patient check-in]\n[patient check-out]\n[exit]\n\n"<BR>
+end</DIV>
+
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;class Clinic<BR>
+&nbsp; attr_accessor :rooms, :doc_info, :pat_info, :waiting</DIV>
+<DIV>&nbsp; def initialize<BR>
+&nbsp;&nbsp;&nbsp; @rooms = [nil]<BR>
+&nbsp;&nbsp;&nbsp; @doc_info = []<BR>
+&nbsp;&nbsp;&nbsp; @pat_info = []<BR>
+&nbsp;&nbsp;&nbsp; @waiting = []<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def get_input<BR>
+&nbsp;&nbsp;&nbsp; puts "Welcome to the clinic. Please select one of the following options:<BR>
+\n[doctor check-in]\n[doctor check-out]\n[patient check-in]\n[patient check-out]\n[exit]\n\n"</DIV>
+<DIV>&nbsp;&nbsp;&nbsp; while line = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if line == "doctor check-in"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doctor_checkin<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patient_sorter<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif line == "patient check-in"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patient_checkin<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patient_sorter<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif line == "doctor check-out"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; doctor_checkout<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patient_sorter<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif line == "patient check-out"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patient_checkout<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif line == "exit"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Command not recognized!<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ------------------------------------------------------------"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Welcome to the clinic. Please select one of the following options:<BR>
+&nbsp; \n[doctor check-in]\n[doctor check-out]\n[patient check-in]\n[patient check-out]\n[exit]\n\n"<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def doctor_checkin<BR>
+&nbsp;&nbsp;&nbsp; @doc_info = []<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter your name: "<BR>
+&nbsp;&nbsp;&nbsp; @doc_info[0] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter your specialty code: "<BR>
+&nbsp;&nbsp;&nbsp; while @doc_info[2] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless @doc_info[2] == "PED" || @doc_info[2] == "GEN" || @doc_info[2] == "INT" || @doc_info[2] == "CAR" || @doc_info[2] == "SUR" || @doc_info[2] == "OBS" || @doc_info[2] == "PSY" || @doc_info[2] == "NEU" || @doc_info[2] == "ORT" || @doc_info[2] == "DER" || @doc_info[2] == "OPT" || @doc_info[2] == "ENT"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Error, specialty code must be one of the following:\nPED\nGEN\nINT\nCAR\nSUR\nOBS\nPSY\nNEU\nORT\nDER\nOPT\nENT\nPlease try again."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter your preferred room number: "<BR>
+&nbsp;&nbsp;&nbsp; while @doc_info[1] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if @doc_info[1].match(/^\d+$/)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @doc_info[1] = Integer(@doc_info[1])<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if @doc_info[1] &lt; 1 || @doc_info[1] &gt; 100<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Error, please enter a room number from 1 to 100: "<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif @rooms[@doc_info[1]-1] != nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Room currently in use, please select another room: "<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms[@doc_info[1]-1] = Doctor.new(@doc_info[0], @doc_info[1], @doc_info[2])</DIV>
+<DIV>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Welcome Dr. <A href="mailto:#{@doc_info[0">#{@doc_info[0</A>]}, please proceed to room <A href="mailto:#{@doc_info[1">#{@doc_info[1</A>]}."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Error, room number must be a positive integer. Please try again."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def patient_checkin<BR>
+&nbsp;&nbsp;&nbsp; @pat_info = []<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter your name: "<BR>
+&nbsp;&nbsp;&nbsp; @pat_info[0] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter your age: "<BR>
+&nbsp;&nbsp;&nbsp; while @pat_info[1] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless @pat_info[1].match(/^\d+$/)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Please enter your age as an integer."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @pat_info[1] = Integer(@pat_info[1])<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter a specialty code based on your needs: "<BR>
+&nbsp;&nbsp;&nbsp; while @pat_info[2] = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless @pat_info[2] == "PED" || @pat_info[2] == "GEN" || @pat_info[2] == "INT" || @pat_info[2] == "CAR" || @pat_info[2] == "SUR" || @pat_info[2] == "OBS" || @pat_info[2] == "PSY" || @pat_info[2] == "NEU" || @pat_info[2] == "ORT" || @pat_info[2] == "DER" || @pat_info[2] == "OPT" || @pat_info[2] == "ENT"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Error, specialty code must be one of the following:\nPED\nGEN\nINT\nCAR\nSUR\nOBS\nPSY\nNEU\nORT\nDER\nOPT\nENT\nPlease try again."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; @waiting &lt;&lt; Patient.new(@pat_info[0], @pat_info[1], @pat_info[2])<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def patient_sorter<BR>
+&nbsp;&nbsp;&nbsp; until @waiting.empty?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder = [nil, nil]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if @waiting[0].age &lt; 16<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms.each_with_index do |i, index|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif index == 100<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.specialty == "PED"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.queue.length &lt; info_holder[1]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms.each_with_index do |i, index|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif index == 100<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.queue.length &lt; info_holder[1]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "<A href="mailto:#{@waiting[0].name">#{@waiting[0].name</A>}, please proceed to room #{info_holder[0]} to see Dr. <A href="mailto:#{@rooms[info_holder[0]-1].name">#{@rooms[info_holder[0]-1].name</A>}."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms[info_holder[0]-1].queue &lt;&lt; @waiting.shift<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "There are no doctors in at the moment.&nbsp; Patients will be notified when a doctor checks in."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms.each_with_index do |i, index|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif index == 100<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.specialty == @waiting[0].spec_request<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.queue.length &lt; info_holder[1]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms.each_with_index do |i, index|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif index == 100<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.queue.length &lt; info_holder[1]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[0] = i.room<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; info_holder[1] = i.queue.length<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless info_holder[0] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "<A href="mailto:#{@waiting[0].name">#{@waiting[0].name</A>}, please proceed to room #{info_holder[0]} to see Dr. <A href="mailto:#{@rooms[info_holder[0]-1].name">#{@rooms[info_holder[0]-1].name</A>}."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms[info_holder[0]-1].queue &lt;&lt; @waiting.shift<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "There are no doctors in at the moment.&nbsp; Patients will be notified when a doctor checks in."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def doctor_checkout<BR>
+&nbsp;&nbsp;&nbsp; puts "Enter doctor name."<BR>
+&nbsp;&nbsp;&nbsp; @doc_out_name = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp; puts "Enter room used."<BR>
+&nbsp;&nbsp;&nbsp; # Room request added to eliminate possiblility of repeat doctor names.<BR>
+&nbsp;&nbsp;&nbsp; while @doc_out_room = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless @doc_out_room.match(/^\d+$/)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Please enter the integer value of the room you used."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @doc_out_room = Integer(@doc_out_room)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; if @rooms[@doc_out_room-1] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "That room is empty!"<BR>
+&nbsp;&nbsp;&nbsp; elsif @doc_out_name == @rooms[@doc_out_room - 1].name<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @waiting.concat(@rooms[@doc_out_room - 1].queue)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms[@doc_out_room - 1] = nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p "Patients reassigned and room <A href="mailto:#{@doc_out_room">#{@doc_out_room</A>} is now clear. Good-bye Dr. <A href="mailto:#{@doc_out_name">#{@doc_out_name</A>}."<BR>
+&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Incorrect room-doctor assignment."<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end</DIV>
+<DIV>&nbsp; def patient_checkout<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter patient name."<BR>
+&nbsp;&nbsp;&nbsp; @pat_out_name = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp; puts "Please enter room number."<BR>
+&nbsp;&nbsp;&nbsp; while @pat_out_room = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless @pat_out_room.match(/^\d+$/)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Please enter an integer room number between 1 and 100."<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @pat_out_room = Integer(@pat_out_room)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp; if @rooms[@pat_out_room - 1].queue[0].name == @pat_out_name<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @rooms[@pat_out_room - 1].queue.shift<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p "Patient <A href="mailto:#{@pat_out_name">#{@pat_out_name</A>} is now checked-out. Goodbye!"<BR>
+&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Patient has not seen a doctor yet."<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end<BR>
+end</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>class Doctor<BR>
+&nbsp; attr_accessor :name, :specialty, :queue, :room</DIV>
+<DIV>&nbsp; def initialize(name, room, specialty)<BR>
+&nbsp;&nbsp;&nbsp; @name = name<BR>
+&nbsp;&nbsp;&nbsp; @specialty = specialty<BR>
+&nbsp;&nbsp;&nbsp; @room = room<BR>
+&nbsp;&nbsp;&nbsp; @queue = []<BR>
+&nbsp; end<BR>
+end</DIV>
+<DIV>class Patient<BR>
+&nbsp; attr_accessor :name, :age, :spec_request</DIV>
+<DIV>&nbsp; def initialize(name, age, spec_request)<BR>
+&nbsp;&nbsp;&nbsp; @name = name<BR>
+&nbsp;&nbsp;&nbsp; @age = age<BR>
+&nbsp;&nbsp;&nbsp; @spec_request = spec_request<BR>
+&nbsp; end<BR>
+end</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>

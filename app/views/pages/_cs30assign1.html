@@ -1,0 +1,114 @@
+<DIV>&nbsp;require 'csv'</DIV>
+<DIV>class Inventory_Item<BR>
+&nbsp; attr_reader :product_number, :description, :price, :tax<BR>
+&nbsp; attr_accessor :quantity<BR>
+&nbsp; def to_s<BR>
+&nbsp;&nbsp;&nbsp; "Item Number: <A href="mailto:#{@product_number">#{@product_number</A>}, Description: <A href="mailto:#{@description">#{@description</A>}, Price: <A href="mailto:#{@price">#{@price</A>}, Tax: <A href="mailto:#{@tax">#{@tax</A>}"<BR>
+&nbsp; end<BR>
+&nbsp; def initialize(product_number, description, price, tax)<BR>
+&nbsp;&nbsp;&nbsp; @product_number = product_number<BR>
+&nbsp;&nbsp;&nbsp; @description = description<BR>
+&nbsp;&nbsp;&nbsp; @price = price<BR>
+&nbsp;&nbsp;&nbsp; @tax = tax<BR>
+&nbsp;&nbsp;&nbsp; @quantity<BR>
+&nbsp; end<BR>
+end<BR>
+#Creates an object which contains the information for any inventory item in four instance variables</DIV>
+<DIV>class Inventory_Reader<BR>
+&nbsp; attr_reader :inventory<BR>
+&nbsp; def initialize<BR>
+&nbsp;&nbsp;&nbsp; @inventory = []<BR>
+&nbsp; end<BR>
+&nbsp; def read_inventory_data(file_name)<BR>
+&nbsp;&nbsp;&nbsp; CSV.foreach(file_name, headers: true) do |row|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @inventory &lt;&lt; Inventory_Item.new(row["product number"], row["description"], row["price"], row["tax"])<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end<BR>
+end<BR>
+#Reads in the information from the csv file containing the inventory</DIV>
+<DIV>class Receipt_Holder<BR>
+&nbsp; attr_accessor :receipts<BR>
+&nbsp; def initialize<BR>
+&nbsp;&nbsp;&nbsp; @receipts = []<BR>
+&nbsp; end<BR>
+end<BR>
+#creates a container to hold the day's receipts</DIV>
+<DIV>class Customer<BR>
+&nbsp; attr_accessor :receipt, :subtotal, :tax<BR>
+&nbsp; def initialize<BR>
+&nbsp;&nbsp;&nbsp; @receipt = []<BR>
+&nbsp;&nbsp;&nbsp; @subtotal = 0<BR>
+&nbsp;&nbsp;&nbsp; @tax = 0<BR>
+&nbsp; end <BR>
+end<BR>
+#creates a 'cart' for each customer which keeps track of items purchased, cost, and tax</DIV>
+<DIV>file = ["inventory.csv"]<BR>
+reader = Inventory_Reader.new<BR>
+file.each do |csv_file_name|<BR>
+&nbsp; reader.read_inventory_data(csv_file_name)<BR>
+end</DIV>
+<DIV><BR>
+days_business = Receipt_Holder.new<BR>
+&nbsp; puts "New Customer? yes or no"<BR>
+&nbsp; while question = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp; if question == "no"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; days_business.receipts.each_with_index do |item, y|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p "Customer #{y+1}"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; item.each {|x| puts x}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Enjoy your produce!"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # about code prints the final receipt through iteration<BR>
+&nbsp;&nbsp;&nbsp; elsif question == "yes"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i = Customer.new<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #creates instances of the customer class accessed each time the loop is called<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Enter product number and quantity ('done' to end)"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while line = gets.chomp<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # accepts user input of items and quantity<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if line == "done"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a = line.split<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if a[1] == nil<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Error, no quantity entered"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unless a[1].match(/^\d+$/)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #error check agains improper quantity<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Invalid quantity, quantity must be a positive integer"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reader.inventory.each do |i|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i.product_number == a[0]<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #provides comparison and selection between product number and inventory items<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.receipt &lt;&lt; "#{i.description.capitalize} @ $#{i.price} x#{a[1]}"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.subtotal += Integer(a[1]) * Float(i.price)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if i.tax == "T"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.tax += 0.075 * Integer(a[1]) * Float(i.price)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elsif i.product_number != a[0] and i == reader.inventory.last<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "#{a[0]}: Product number not found"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.receipt &lt;&lt; "Subtotal: $#{customer_i.subtotal}"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.receipt &lt;&lt; "Tax: $#{customer_i.tax.round(2)}"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; customer_i.receipt &lt;&lt; "Total: $#{customer_i.tax.round(2) + customer_i.subtotal}"<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; days_business.receipts &lt;&lt; customer_i.receipt<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Next Customer? yes or no"<BR>
+&nbsp;&nbsp;&nbsp; else <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts "Please answer 'yes' or 'no' only"<BR>
+&nbsp; end<BR>
+end</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;</DIV>

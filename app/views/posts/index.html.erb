@@ -1,0 +1,29 @@
+
+<h1>Forum</h1>
+
+<table border = #aa1818>
+  <tr>
+
+    <th width = 150px>Title</th>
+
+    <th align = left width = 600px> &nbsp;&nbsp;&nbsp;&nbsp;Body</th>
+
+  </tr>
+
+<% @posts.each do |post| %>
+  <tr border = #aa1818>
+
+    <td align = center width = 150px><%=h post.title %></td>
+
+    <td width = 600px><%=h post.body %></td>
+
+    <td><%= link_to 'Show', post %></td>
+    <td><%= link_to 'Edit', edit_post_path(post) %></td>
+    <td><%= link_to 'Delete', post, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New post', new_post_path %>

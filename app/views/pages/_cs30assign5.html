@@ -1,0 +1,46 @@
+<DIV>&nbsp;</DIV>
+<DIV>&nbsp;def list_permutations(words)<BR>
+&nbsp; a = []<BR>
+&nbsp; a &lt;&lt; words<BR>
+&nbsp; b = permutations(a)<BR>
+&nbsp; c = remove_dup(b)<BR>
+&nbsp; p c<BR>
+end<BR>
+# a = ["word"]</DIV>
+<DIV>def permutations(word)<BR>
+&nbsp; if word[0].size == 1<BR>
+&nbsp;&nbsp;&nbsp; return word<BR>
+&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp; word.each do |i|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b = i.split(//)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = b.shift<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y = [] &lt;&lt; b.join<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return place(c, permutations(y))<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end<BR>
+end<BR>
+# b = w, word = ["ord", "odr", "rod", "rdo", "dor", "dro"]</DIV>
+<DIV>def place(x, y)<BR>
+&nbsp; holder = []<BR>
+&nbsp; y.each do |i|<BR>
+&nbsp;&nbsp;&nbsp; k = i.size<BR>
+&nbsp;&nbsp;&nbsp; j = 0<BR>
+&nbsp;&nbsp;&nbsp; 0.upto(k) do |a|<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; holder &lt;&lt; i.dup.insert(j, x)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; j += 1<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end<BR>
+&nbsp; return holder<BR>
+end</DIV>
+<DIV>def remove_dup(x)<BR>
+&nbsp; a = []<BR>
+&nbsp; x.each do |i|<BR>
+&nbsp;&nbsp;&nbsp; if a.count(i) == 0<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a &lt;&lt; i<BR>
+&nbsp;&nbsp;&nbsp; else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next<BR>
+&nbsp;&nbsp;&nbsp; end<BR>
+&nbsp; end<BR>
+&nbsp; return a<BR>
+end</DIV>
+<DIV>list_permutations("acc")</DIV>

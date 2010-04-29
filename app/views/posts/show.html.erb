@@ -1,0 +1,55 @@
+
+<p>
+  <b>Title:</b>
+  <%=h @post.title %>
+</p>
+
+
+<p>
+  <b>Body:</b>
+  <%=h @post.body %>
+</p>
+
+
+<table border = #aa1818>
+  <tr>
+
+    <th width = 150px>Author</th>
+
+    <th align = left width = 500px>Comment</th>
+  </tr>
+
+<%@post.notes.each do |note| %>
+  <tr>
+
+    <td align = center width = 150px><%=h note.name %></td>
+
+    <td width = 500px><%=h note.body %></td>
+    <td><%= link_to 'Delete', note, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<p>Add a Comment</p>
+<% form_for (@note) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :post_id %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :Comment %><br />
+    <%= f.text_area :body %>
+  </p>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>

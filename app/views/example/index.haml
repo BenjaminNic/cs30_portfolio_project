@@ -35,6 +35,153 @@
                 This portion takes up three columns of the grid
 
 
+    %h2 Commands you will need
+    .row
+        .three.columns.first
+            %h4 Rails
+
+            %h5 rake db: migrate
+            %p
+                update your database to the latest migration file
+
+
+            %h5 rake:db test:prepare
+            %p
+                updates your test database with your current development schema
+                (do this after you run rake db:migrate)
+
+            %h5 ruby script/server
+            %p
+                Starts up your development server
+
+            %h5 ruby script/generate scaffold [model_name] [attribute_name]:[type]
+            %p
+                Generates a migration file, model, controller and views for a given resource
+                This code is mostly meant for learning rather than productino but works just fine
+
+            %h5 ruby script/generate model [model_name] [attribute_name]:[type]
+            %p
+                Generates a model file and migration file containing the passed in attributes
+                (make sure to run rake db:migrate after this)
+
+            %h5 ruby script/generate controller [name] [action_names] - (ex index show)
+            %p
+                Generates a controller with methods and view files for each of the passed in actions
+
+        .three.columns
+            %h4 Git
+
+            %h5 git clone [remote-repository-url]
+            %p
+                Copies the contents of the remote git repository to a local copy
+
+            %h5 git add -A
+            %p
+                Stage any changes made to your project that are currently untracked
+
+            %h5 git commit -m "[message]"
+            %p
+                Commit the tracked changes into your local repository
+
+            %h5 git pull [remote-repository-name] [branch to be pulled]
+            %p
+                Update your local project with changes on the remote repository, ex. git pull josh master
+                will update your project to the latest version of my code
+
+            %h5 git push [remote-repository-name] [branch to be pushed]
+            %p
+                Upload your local changes to the remote repository, ex. git push origin master
+                will upload your changes to your github account
+
+
+            %h5 git checkout [branch-name]
+            %p
+                Switch to a particular branch
+
+            %h5 git checkout -b [branch-name]
+            %p
+                Make a new branch and switch to it
+
+            %h5 git reset --hard
+            %p Your panic button destroy all uncommited changes (make sure to run git add -A first though)
+
+            %h5 git remote add [repository-name] [repository-url]
+            %p Create a new remote location that can be referenced by the [repository-name]
+
+
+
+        .three.columns
+            %h4
+                Command Line
+                %small
+                    (linux/mac/cygwin/git terminal on windows)
+            %h5 ls
+            %p
+                list the files in a directory
+            %h5 cd [path]
+            %p
+                switch directories into the specified path
+
+            %h5 cat [file]
+            %p
+                output the contents of the file into the terminal
+
+            %h5 rm [file] | rm -r [directory]
+            %p
+                delete file or directory
+
+            %h5 touch [file]
+            %p create specified file
+
+
+    %h2 How to do stuff in your database
+
+    .row
+        .four.columns.first
+            %h4 Basic
+
+            %h5 @posts = Post.all
+            %p find all the posts in the database - comes back as an array
+
+            %h5 @posts = Post.first
+            %p find the first post in the database
+
+            %h5 @post = Post.last
+            %p hmm wonder what this does?
+
+            %h5 @post = Post.find( 1 )
+            %p find the post with the specified id - ex 1 in this case
+
+            %h5 @post = Post.find(params[:id])
+            %p find the post from id specified in the request url ex http://localhost:3000/posts/1
+
+            %h5 @post = Post.new(:title => "hi", :body => "foo")
+            %p make a new post in memory
+
+            %h5 @post.save
+            %p save a post that you have already made in memory
+
+
+            %h5 @post.destroy
+            %p delete the post
+
+        .four.columns
+            %h4 Intermediate
+
+            %h5 @posts = Post.all(:order => 'created_at DESC')
+            %p
+                Find all the posts and order them by the time they were created (most recent first) - for the opposite order use ASC instead of DESC
+
+
+            %h5 @posts = Post.all( :conditions => { :title => 'some title' } )
+            %p Find the posts whose title equals 'some title'
+
+            %h5 @posts = Post.all( :conditions => [ 'created_at < ? AND updated_at < ?', Date.today, Date.today ] )
+            %p
+                Find all the posts that were created before today and have not been updated today -
+                Alternate syntax for conditions that allows you to use comparisons and logical operations (AND, OR)
+
+
     %h2 Buttons
     .row
         .three.columns.first
@@ -77,4 +224,3 @@
                 %li This is an unordered list
                 %li there are simply bullet points
                 %li like so
-
